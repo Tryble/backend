@@ -10,8 +10,8 @@ const createError = (message, status = 400) => {
 };
 
 const generateToken = user => {
-  const { id, username } = user;
-  const payload = { id, username };
+  const { id, email } = user;
+  const payload = { id, email };
   const option = {};
   const token = jwt.sign(payload, secret, option);
   return token;

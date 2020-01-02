@@ -1,5 +1,19 @@
 const db = require("../data");
 
-const getUser = () => db("users");
+const findByEmail = email => {
+  return db("users")
+    .where({ email })
+    .first();
+};
 
-module.exports = { getUser };
+const findById = id => {
+  return db("users")
+    .where({ id })
+    .first();
+};
+
+const create = data => {
+  return db("users").insert(data, "*");
+};
+
+module.exports = { create, findByEmail, findById };

@@ -5,8 +5,8 @@ const restricted = (req, res, next) => {
   const token = req.headers.authorization;
   const option = {};
   try {
-    const { id, username } = jwt.verify(token, secret, option);
-    req.user = { id, username };
+    const { id, email } = jwt.verify(token, secret, option);
+    req.user = { id, email };
     next();
   } catch (error) {
     next(error);
