@@ -24,13 +24,12 @@ const validateLogin = async (req, res, next) => {
       const validatedUser = await bcrypt.compare(password, user.password);
       const token = generateToken(validatedUser);
 
-      res.status(200).json({
+      return res.status(200).json({
         message: `Welcome ${username}`,
         token
       });
-    } else {
-      throw createError("invalid username or password");
     }
+    throw createError("invalid username or password");
   } catch (error) {
     return next(error);
   }
