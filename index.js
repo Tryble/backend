@@ -1,3 +1,4 @@
+const dotenv = require("dotenv");
 const server = require("./server");
 const { port } = require("./config");
 
