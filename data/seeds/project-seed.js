@@ -10,6 +10,7 @@ const createFakeProject = () => ({
 exports.seed = async function(knex) {
   const fakeProjects = [];
   const desiredFakeProjects = 50;
+  await knex('projects').del()
   for (let i = 0; i < desiredFakeProjects; i++) {
     fakeProjects.push(createFakeProject());
   }
