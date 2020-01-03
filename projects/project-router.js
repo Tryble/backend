@@ -20,7 +20,7 @@ router.post("/", upload.any(), async (req, res, next) => {
     const data = req.body;
     if (req.file) {
       const { path } = req.file;
-      const url = uploader(path);
+      const url = await uploader(path);
       data.imgUrl = url;
     }
     const [project] = await Project.create(data);
