@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { createError } = require("../utils");
 const Tribe = require("./tribe-model");
 
-// /api/tribes/
+//  GET /api/tribes
 router.get("/", async (req, res, next) => {
   try {
     const tribes = await Tribe.list();
@@ -12,7 +12,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// /api/tribes/create
+// POST /api/tribes
 router.post("/create", async (req, res, next) => {
   try {
     const [tribe] = await Tribe.create(req.body);
@@ -22,8 +22,8 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-// api/tribes/update
-router.put("/update/:id", async (req, res, next) => {
+// PUT api/tribes/:id
+router.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const [tribe] = await Tribe.update(id, req.body);
@@ -33,8 +33,8 @@ router.put("/update/:id", async (req, res, next) => {
   }
 });
 
-// api/tribes/delete
-router.delete("/delete/:id", async (req, res, next) => {
+// DELETE api/tribes/:id
+router.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const rows = await Tribe.remove(id);
