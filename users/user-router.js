@@ -1,9 +1,13 @@
-const router = require("express").Router();
+const e = require("express");
 const User = require("./user-model");
+const Tribe = require("../tribes/tribe-model");
 const { generateToken } = require("../utils");
 const { validateUser, validateLogin } = require("../middlewares/validations");
 
-router.post("/register", validateUser, async (req, res, next) => {
+const authRouter = e.Router();
+const userRouter = e.Router();
+
+authRouter.post("/register", validateUser, async (req, res, next) => {
   try {
     const [user] = await User.create(req.data);
     const token = generateToken(user);
@@ -14,7 +18,17 @@ router.post("/register", validateUser, async (req, res, next) => {
     return next(error);
   }
 });
+// POST /api/auth/login
+authRouter.post("/login", validateLogin);
 
-router.post("/login", validateLogin);
+// GET /api/user/tribes
+userRouter.get("/tribes", async (req, res, next) => {
+  try {
+    const tribes = Tribe.tribesByUser(req.user.id);
+    return res.json(200).json(tribes);
+  } catch (error) {
+    return next(error);
+  }
+});
 
-module.exports = router;
+module.exports = { authRouter, userRouter };

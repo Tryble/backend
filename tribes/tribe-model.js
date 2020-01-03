@@ -21,9 +21,9 @@ const remove = id => {
 };
 
 const tribesByUser = userId => {
-  return db("tribes")
-    .join("user_tribes")
-    .on("user_tribes.userId", "=", userId);
+  return db("user_tribes as T")
+    .where({ userId })
+    .join("tribes", "tribes.id", "=", "T.tribeId");
 };
 module.exports = {
   create,
