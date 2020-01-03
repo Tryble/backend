@@ -43,7 +43,7 @@ router.put('/update', restricted, async (req, res, next) => {
 })
 
 // api/tribes/delete
-router.delete('/delete/:id', restricted, async (req, res, next) => {
+/* router.delete('/delete/:id', restricted, async (req, res, next) => {
   try {
     id = req.params.id;
     const [tribe] = await Tribe.remove(id)
@@ -53,7 +53,7 @@ router.delete('/delete/:id', restricted, async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-})
+}) */
 
 
 module.exports = router;
