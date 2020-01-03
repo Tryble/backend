@@ -19,9 +19,16 @@ const remove = id => {
     .where({ id })
     .del();
 };
+
+const tribesByUser = userId => {
+  return db("tribes")
+    .join("user_tribes")
+    .on("user_tribes.userId", "=", userId);
+};
 module.exports = {
   create,
   update,
   list,
-  remove
+  remove,
+  tribesByUser
 };
