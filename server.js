@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const errorHandler = require("./middlewares/error");
 
 const authRouter = require("./users/user-router");
+const tribeRouter = require("./tribes/tribe-router");
 
 const server = express();
 server.use(express.json());
@@ -11,6 +12,7 @@ server.use(cors());
 server.use(helmet());
 
 server.use("/api/auth", authRouter);
+server.use("/api/tribes", tribeRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json("Hello!");
