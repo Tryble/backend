@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const errorHandler = require("./middlewares/error");
 const { restricted } = require("./middlewares/auth");
 
-const authRouter = require("./users/user-router");
+const { authRouter, userRouter } = require("./users/user-router");
 const tribeRouter = require("./tribes/tribe-router");
 const projectRouter = require("./projects/project-router");
 
@@ -16,6 +16,7 @@ server.use(helmet());
 server.use("/api/auth", authRouter);
 server.use("/api/tribes", restricted, tribeRouter);
 server.use("/api/projects", restricted, projectRouter);
+server.use("/api/user", restricted, userRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json("Hello!");
