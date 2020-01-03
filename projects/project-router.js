@@ -1,5 +1,7 @@
 const router = require("express").Router();
-const { createError } = require("../utils");
+const { createError, uploader } = require("../utils");
+const upload = require("../middlewares/multer");
+
 const Project = require("./project-model");
 
 // GET /api/projects
@@ -13,9 +15,15 @@ router.get("/", async (req, res, next) => {
 });
 
 // POST /api/projects
-router.post("/", async (req, res, next) => {
+router.post("/", upload.any(), async (req, res, next) => {
   try {
-    const [project] = await Project.create(req.body);
+    const data = req.body;
+    if (req.file) {
+      const { path } = req.file;
+      const url = await uploader(path);
+      data.imgUrl = url;
+    }
+    const [project] = await Project.create(data);
     return res.status(201).json({ project });
   } catch (error) {
     return next(error);

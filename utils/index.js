@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const { secret } = require("../config");
+const cloudinary = require("./cloudinary");
 
 const createError = (message, status = 400) => {
   const error = new Error(message);
@@ -17,7 +18,10 @@ const generateToken = user => {
   return token;
 };
 
+const uploader = async path => await cloudinary.uploads(path, "Images");
+
 module.exports = {
   createError,
-  generateToken
+  generateToken,
+  uploader
 };
