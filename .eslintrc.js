@@ -13,6 +13,8 @@ module.exports = {
   },
   rules: {
     quotes: 0,
-    "comma-dangle": 0
+    "comma-dangle": 0,
+    "arrow-parens": 0,
+    "arrow-body-style": 0
   }
 };
