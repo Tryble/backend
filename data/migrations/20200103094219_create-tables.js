@@ -1,91 +1,112 @@
 exports.up = function(knex) {
-  knex.schema
+  return knex.schema
     .createTable("users", table => {
-      table.increments();
+      // id
+      table.increments("id");
+      // firstName
       table.string("firstName", 30).notNullable();
+      // lastName
       table.string("lastName", 30).notNullable();
+      // email
       table
         .string("email", 50)
         .unique()
         .notNullable();
-      table.string("password", 50).notNullable();
+      // password
+      table.string("password", 128).notNullable();
+      // imgUrl
       table.string("imgUrl", 128);
     })
     .createTable("tribes", table => {
-      table.increments();
+      // id
+      table.increments("id");
+      // name
       table
         .string("name", 50)
         .unique()
         .notNullable();
+      // imgUrl
       table.string("imgUrl", 128);
     })
     .createTable("projects", table => {
-      table.increments();
+      // id
+      // name
+      table.string("name", 50).notNullable();
+      table.increments("id");
+      // tribeId
       table
         .integer("tribeId")
-        .references("tribes.id")
-        .notNullable()
+        .references("id")
+        .inTable("tribes")
         .onDelete("CASCADE");
+      // upvotes
       table.integer("upvotes").defaultTo(0);
-      table.string("name", 50).notNullable();
+      // headline
       table.string("headline", 280);
-      table.text("description", 1000);
+      // description
+      table.text("description");
+      // status
       table.string("status", 30).defaultTo("open");
-      table.enum("tags");
+      table.string("tags");
     })
     .createTable("roles", table => {
-      table.increments();
+      // id
+      table.increments("id");
+      // title
+      table.string("title", 50).notNullable();
+      // projectId
       table
         .integer("projectId")
-        .references("projects.id")
-        .notNullable()
+        .references("id")
+        .inTable("projects")
         .onDelete("CASCADE");
-      table.string("title", 50).notNullable();
-      table
-        .integer("numberNeeded")
-        .notNullable()
-        .defaultTo(1);
-      table
-        .integer("numberTaken")
-        .notNullable()
-        .defaultTo(0);
+      // numberNeeded
+      table.integer("numberNeeded").defaultTo(1);
+      // numberTaken
+      table.integer("numberTaken").defaultTo(0);
     })
     .createTable("requests", table => {
-      table.increments();
+      // id
+      table.increments("id");
+      // projectId
       table
         .integer("projectId")
-        .references("projects.id")
-        .notNullable()
+        .references("id")
+        .inTable("projects")
         .onDelete("CASCADE");
+      // userId
       table
         .integer("userId")
-        .references("users.id")
-        .notNullable();
-      table.text("message");
+        .references("id")
+        .inTable("users")
+        .onDelete("CASCADE");
+      // roleId
       table
         .integer("roleId")
-        .references("roles.id")
-        .notNullable()
+        .references("id")
+        .inTable("roles")
         .onDelete("CASCADE");
+      // message
       table.text("message");
-      table
-        .string("status", 30)
-        .notNullable()
-        .defaultTo("pending");
+      // status
+      table.string("status", 30).defaultTo("pending");
     })
     .createTable("images", table => {
-      table.increments();
+      // id
+      table.increments("id");
+      // projectId
       table
         .integer("projectId")
-        .references("projects.id")
-        .notNullable()
+        .references("id")
+        .inTable("projects")
         .onDelete("CASCADE");
+      // imgUrl
       table.string("imgUrl", 128);
     });
 };
 
 exports.down = function(knex) {
-  knex.schema
+  return knex.schema
     .dropTableIfExists("images")
     .dropTableIfExists("requests")
     .dropTableIfExists("roles")
