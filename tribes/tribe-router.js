@@ -16,9 +16,7 @@ router.get("/", async (req, res, next) => {
 router.post("/create", async (req, res, next) => {
   try {
     const [tribe] = await Tribe.create(req.body);
-    return res
-      .status(201)
-      .json({ message: `You've created ${tribe.name}`, tribe });
+    return res.status(201).json({ tribe });
   } catch (error) {
     return next(error);
   }
