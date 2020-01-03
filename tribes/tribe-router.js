@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { createError } = require("../utils");
 const Tribe = require("./tribe-model");
 
 // /api/tribes/
@@ -28,9 +29,7 @@ router.put("/update/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const [tribe] = await Tribe.update(id, req.body);
-    return res
-      .status(201)
-      .json({ message: `You've updated ${tribe.name}`, tribe });
+    return res.status(201).json({ tribe });
   } catch (error) {
     return next(error);
   }
@@ -40,10 +39,13 @@ router.put("/update/:id", async (req, res, next) => {
 router.delete("/delete/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Tribe.remove(id);
-    return res
-      .status(202)
-      .json({ message: `Tribe with id ${id} deleted successfully!` });
+    const rows = await Tribe.remove(id);
+    if (rows) {
+      return res
+        .status(202)
+        .json({ message: `Tribe with id ${id} deleted successfully!` });
+    }
+    throw createError("Unable to delete tribe", 500);
   } catch (error) {
     return next(error);
   }
