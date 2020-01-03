@@ -1,19 +1,27 @@
 const db = require("../data");
 
-    const create = tribe => {
-        return db("tribes").insert(tribe, "*");
-    }
+const create = tribe => {
+  return db("tribes").insert(tribe, "*");
+};
 
-    const update = tribe  => {
-        return db("tribes").where({ id })
-        .update(changes, "*")
-    }
+const update = (id, updatedTribe) => {
+  return db("tribes")
+    .where({ id })
+    .update(updatedTribe, "*");
+};
 
-    const list = tribe  => {
-        return db("tribes");
-    }
+const list = () => {
+  return db("tribes");
+};
 
-    const remove = tribe => {
-        return db("tribes").where({ id }).del();
-    }
-    module.exports = { create, update, list, remove }
+const remove = id => {
+  return db("tribes")
+    .where({ id })
+    .del();
+};
+module.exports = {
+  create,
+  update,
+  list,
+  remove
+};
