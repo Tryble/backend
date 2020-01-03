@@ -16,4 +16,11 @@ const create = data => {
   return db("users").insert(data, "*");
 };
 
-module.exports = { create, findByEmail, findById };
+const list = () => db("users");
+
+module.exports = {
+  create,
+  findByEmail,
+  findById,
+  list
+};
