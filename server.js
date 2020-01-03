@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const errorHandler = require("./middlewares/error");
 
 const authRouter = require("./users/user-router");
-const tribeRouter = require("./users/tribe-router");
+const tribeRouter = require("./tribes/tribe-router");
 
 const server = express();
 server.use(express.json());
